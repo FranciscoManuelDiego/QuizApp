@@ -12,6 +12,9 @@ export default function Quiz() {
 
     const activeQuestionIndex= userAnswer.length;
      const shuffledAnswers = Questions[activeQuestionIndex].answers.sort(() => Math.random() - 0.50) // Creates a new array from the questions.
+    if (shuffledAnswers.length === activeQuestionIndex) {
+        return <h1>Quiz Completed!</h1>; // If there are no answers left, display a message.
+    }
     return(
     <div id="quiz">
         <h1>
@@ -29,4 +32,4 @@ export default function Quiz() {
     </div>
 )
 }
-// Funciton on button invokes only once per button click
+// Function on button invokes only once per button click
