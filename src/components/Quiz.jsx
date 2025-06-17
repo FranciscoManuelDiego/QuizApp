@@ -8,6 +8,7 @@ export default function Quiz() {
     <div id="quiz">
         <h1>
             {Questions[activeQuestionIndex].text}
+            {Questions[activeQuestionIndex].id}
         </h1>
     </div>
 )}
