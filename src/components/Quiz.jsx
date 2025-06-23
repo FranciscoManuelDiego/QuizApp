@@ -1,42 +1,70 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
+import Answers from "./Answers.jsx";
 import Questions from "../Questions.js";
+import QuestionTimer from "./QuestionTimer.jsx";
 import QuizCompletedImg from "../assets/quiz-complete.png";
 
+
 export default function Quiz() {
+    const [answerState, setAnswerState] = useState("");
     const [userAnswer, setUserAnswers] = useState([]);
-   
+    const [shuffledAnswers, setShuffledAnswers] = useState([]);
 
-    function handleSelectAnswer(selectedAnswer){
+    const activeQuestionIndex = answerState === '' ? userAnswer.length : userAnswer.length - 1;
+
+    // Shuffle answers only when the question changes
+    useEffect(() => {
+        const answers = [...Questions[activeQuestionIndex].answers];
+        answers.sort(() => Math.random() - 0.5);
+        setShuffledAnswers(answers);
+    }, [activeQuestionIndex]);
+
+    const handleSelectAnswer = useCallback(function handleSelectAnswer(selectedAnswer){
+        setAnswerState("answered");
         setUserAnswers((prevUserAnswers) => {
-            return [...prevUserAnswers, selectedAnswer];  //Updating the previous state
-        })
-    }
+            return [...prevUserAnswers, selectedAnswer];
+        });
+        setTimeout(() => {
+            if (selectedAnswer === Questions[activeQuestionIndex].answers[0]){
+                setAnswerState("correct");
+            } else {
+                setAnswerState("wrong");
+            }
+            setTimeout(() => {
+                setAnswerState("");
+            }, 1000);
+        }, 1000);
+    }, [activeQuestionIndex]);
 
-    const activeQuestionIndex= userAnswer.length;
-     const shuffledAnswers = Questions[activeQuestionIndex].answers.sort(() => Math.random() - 0.50) // Creates a new array from the questions.
-    if (shuffledAnswers.length === activeQuestionIndex) {
+    const handleSkipAnswer = useCallback(() => {
+        handleSelectAnswer(null);
+    }, [handleSelectAnswer]);
+
+    if (userAnswer.length === Questions.length) {
         return <div id="summary">
             <img src={QuizCompletedImg} alt="Quiz Completed" />
             <h2>
              Quiz Completed!
              </h2>
-            </div> // If there are no answers left, display a message.
+            </div>
     }
     return(
-    <div id="quiz">
-        <h1>
-            {Questions[activeQuestionIndex].text}
-        <ul id="answers">
-            {shuffledAnswers.map((answer, index) => (
-                <li key={index} className="answer">
-                    <button onClick={() => handleSelectAnswer(answer)} >
-                        {answer}
-                    </button>
-                </li>
-            ))}
-        </ul>
-        </h1>
-    </div>
-)
+        <div id="quiz">
+            <QuestionTimer 
+                key={activeQuestionIndex}
+                onTimeout={handleSkipAnswer}
+                timeout={10000}
+            />
+            <h2>
+                {Questions[activeQuestionIndex].text}
+            </h2>
+            <Answers 
+                answers={shuffledAnswers} 
+                onSelectAnswer={handleSelectAnswer} 
+                answerState={answerState}
+                correctAnswer={Questions[activeQuestionIndex].answers[0]}
+                selectedAnswer={userAnswer[activeQuestionIndex]}
+            />
+        </div>
+    );
 }
-// Function on button invokes only once per button click
