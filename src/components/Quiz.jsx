@@ -49,6 +49,7 @@ export default function Quiz() {
             </div>
     }
     return(
+<<<<<<< HEAD
         <div id="quiz">
             <QuestionTimer 
                 key={activeQuestionIndex}
@@ -68,3 +69,12 @@ export default function Quiz() {
         </div>
     );
 }
+=======
+    <div id="quiz">
+        <h1>
+            {Questions[activeQuestionIndex].text}
+            {Questions[activeQuestionIndex].id}
+        </h1>
+    </div>
+)}
+>>>>>>> 4b20fa130405fb1aeda674bdb531fe4390ca2aad
