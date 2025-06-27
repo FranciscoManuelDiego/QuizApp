@@ -1,9 +1,9 @@
-import Quizlogo from '../assets/quiz-logo.png';
+
 export default function Quiz() {
   return (
     <header>
-        <img src={Quizlogo} alt="Quiz Logo" />
-      <h1>Quiz Component</h1>
+        <img src='/treaty.png' alt="Quiz Logo" />
+      <h1>History Quiz</h1>
     </header>
   );
 }

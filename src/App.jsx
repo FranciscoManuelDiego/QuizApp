@@ -1,13 +1,16 @@
 import Header from './components/Header';
+import { QuizProvider } from './context/QuizContext';
 import Quiz from './components/Quiz';
 function App() {
     return (
-        <div className="App">
-            <Header />
-        <main>
-            <Quiz />
-        </main>
-        </div>
+        <QuizProvider>
+            <div className="App">
+                <Header />
+            <main>
+                <Quiz />
+            </main>
+            </div>
+        </QuizProvider>
     );
 }
 

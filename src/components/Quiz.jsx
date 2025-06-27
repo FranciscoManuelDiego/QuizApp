@@ -1,58 +1,88 @@
 import { useState, useCallback, useEffect } from "react";
 import Answers from "./Answers.jsx";
-import Questions from "../Questions.js";
+import { useQuiz } from "../context/QuizContext.jsx";
 import QuestionTimer from "./QuestionTimer.jsx";
 import QuizCompletedImg from "../assets/quiz-complete.png";
+import Summary from "./Summary.jsx";
 
 
 export default function Quiz() {
-    const [answerState, setAnswerState] = useState("");
-    const [userAnswer, setUserAnswers] = useState([]);
+    const {
+        Questions,
+        userAnswers,
+        setUserAnswers,
+        answerState,
+        setAnswerState,
+        activeQuestionIndex,
+        setActiveQuestionIndex
+    } = useQuiz();
+     // Guard against out-of-bounds
+    if (!Questions[activeQuestionIndex]) {
+        return null;
+    }
+
     const [shuffledAnswers, setShuffledAnswers] = useState([]);
 
-    const activeQuestionIndex = answerState === '' ? userAnswer.length : userAnswer.length - 1;
-
+    const quizFinished = userAnswers.length === Questions.length;
     // Shuffle answers only when the question changes
     useEffect(() => {
         const answers = [...Questions[activeQuestionIndex].answers];
         answers.sort(() => Math.random() - 0.5);
         setShuffledAnswers(answers);
-    }, [activeQuestionIndex]);
+    }, [activeQuestionIndex , Questions]);
 
     const handleSelectAnswer = useCallback(function handleSelectAnswer(selectedAnswer){
+         if (quizFinished) return; // Prevent updates after quiz ends
+
         setAnswerState("answered");
-        setUserAnswers((prevUserAnswers) => {
-            return [...prevUserAnswers, selectedAnswer];
-        });
+        setUserAnswers(prev => [
+        ...prev,
+        {
+            question: Questions[activeQuestionIndex].text,
+            selectedAnswer,
+            correctAnswer: Questions[activeQuestionIndex].answers[0],
+            isCorrect: selectedAnswer === Questions[activeQuestionIndex].answers[0],
+        }
+        ]);
         setTimeout(() => {
-            if (selectedAnswer === Questions[activeQuestionIndex].answers[0]){
+            // Check again in case the quiz finished while waiting
+        if (userAnswers.length + 1 === Questions.length) return;
+            if (selectedAnswer === Questions[activeQuestionIndex].answers[0]){ // This signals that the first answer is the correct one.
                 setAnswerState("correct");
             } else {
                 setAnswerState("wrong");
             }
             setTimeout(() => {
+                // Check again in case the quiz finished while waiting
+                if (userAnswers.length + 1 === Questions.length) return;
                 setAnswerState("");
+                setActiveQuestionIndex(prev => prev + 1);
             }, 1000);
         }, 1000);
     }, [activeQuestionIndex]);
 
     const handleSkipAnswer = useCallback(() => {
-        handleSelectAnswer(null);
+        if (quizFinished) return;
+        // Only skip if the user hasn't answered yet
+        if (answerState === "") {
+            handleSelectAnswer(null);
+        }
     }, [handleSelectAnswer]);
 
-    if (userAnswer.length === Questions.length) {
-        return <div id="summary">
-            <img src={QuizCompletedImg} alt="Quiz Completed" />
-            <h2>
-             Quiz Completed!
-             </h2>
-            </div>
+    if (userAnswers.length === Questions.length) {
+        return(
+            <Summary userAnswers={userAnswers} resetQuiz={handleResetQuiz} />
+        )
+    } //Takes the answer and shows it in the summary component.
+    function handleResetQuiz() {
+        setUserAnswers([]);
+        setActiveQuestionIndex(0);
+        setAnswerState("");
     }
     return(
-<<<<<<< HEAD
         <div id="quiz">
             <QuestionTimer 
-                key={activeQuestionIndex}
+                questionIndex={activeQuestionIndex}
                 onTimeout={handleSkipAnswer}
                 timeout={10000}
             />
@@ -64,17 +94,8 @@ export default function Quiz() {
                 onSelectAnswer={handleSelectAnswer} 
                 answerState={answerState}
                 correctAnswer={Questions[activeQuestionIndex].answers[0]}
-                selectedAnswer={userAnswer[activeQuestionIndex]}
+                selectedAnswer={userAnswers[activeQuestionIndex]?.selectedAnswer} // ?. means optional chaining, it will return undefined if the object is not defined yet
             />
         </div>
     );
 }
-=======
-    <div id="quiz">
-        <h1>
-            {Questions[activeQuestionIndex].text}
-            {Questions[activeQuestionIndex].id}
-        </h1>
-    </div>
-)}
->>>>>>> 4b20fa130405fb1aeda674bdb531fe4390ca2aad
