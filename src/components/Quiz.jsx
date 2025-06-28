@@ -75,7 +75,9 @@ export default function Quiz() {
         return (
         <div id="start-screen">
             <h2>Welcome to the History Quiz!</h2>
-            <p> How much do you know about history? Test your knowledge with this quiz.</p>
+            <p> How much do you know about history? Test your knowledge with this quiz.
+                (You can translate the quiz with the browser aswell.)
+            </p>
             <button className="answer" onClick={() => setQuizStarted(true)}>
              Start Quiz
             </button>

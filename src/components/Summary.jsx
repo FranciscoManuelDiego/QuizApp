@@ -4,6 +4,7 @@ const Summary = React.memo(function Summary ({ userAnswers, resetQuiz }) {
     <div id="summary">
         <img src="/treaty.png" alt="Quiz Completed" />
         <h2>Quiz Completed!</h2>
+        <p>You answered {userAnswers.filter(entry => entry.isCorrect).length} out of {userAnswers.length} questions correctly.</p>
         <ul>
         {userAnswers.map((entry, index) => (
           <li key={index}>
