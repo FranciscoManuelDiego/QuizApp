@@ -100,7 +100,7 @@ export default function Quiz() {
             <QuestionTimer 
                 questionIndex={activeQuestionIndex}
                 onTimeout={handleSkipAnswer}
-                timeout={10000}
+                timeout={17000}
             />
             <h2>
                 {Questions[activeQuestionIndex].text}
