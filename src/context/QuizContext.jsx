@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import Questions from "../Questions.js";
+import Questions from "../questions.js";
 
 const quizContext = createContext();
 
