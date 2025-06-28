@@ -48,9 +48,7 @@ header h1 {
   letter-spacing: 0.6rem;
   margin: 0;
   text-transform: uppercase;
-  background: linear-gradient(90deg, #0d010f 40%, #cfcdd7 60%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #120e16;
 }
 
 #last-try {
@@ -78,13 +76,49 @@ header h1 {
   color: #a690c5;
 }
 
+#start-screen {
+  max-width: 30rem;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: linear-gradient(180deg, #1b1a1c 0%, #6f6978 100%);
+  border-radius: 8px;
+  box-shadow: 1px 1px 8px 4px rgba(12, 5, 32, 0.6);
+  text-align: center;
+}
+
+#start-screen h2 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+  color: #ffff;
+}
+
+#start-screen p {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size:  1.5rem;
+  color: #fff;
+  margin: 0 0 1.5rem 0;
+}
+
+#start-screen button {
+  display: inline-block;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 1rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 24px;
+  background: #6c3cff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
 #quiz {
   max-width: 50rem;
   margin: auto;
   padding: 2rem;
   background: linear-gradient(180deg, #1b1a1c 0%, #6f6978 100%);
   border-radius: 8px;
-  /* box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.6); */
   box-shadow: 1px 1px 8px 4px rgba(12, 5, 32, 0.6);
   text-align: center;
 }
@@ -209,14 +243,13 @@ header h1 {
 }
 
 #summary {
-  max-width: 40rem;
-  margin: 2rem auto;
+  max-width: 50rem;
+  margin: auto;
   padding: 2rem;
-  background: linear-gradient(180deg, #a17eda 0%, #895fc4 100%);
-  color: #191321;
+  background: linear-gradient(180deg, #1b1a1c 0%, #6f6978 100%);
   border-radius: 8px;
-  box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.6);
-  animation: slide-in-from-bottom 0.7s ease-out;
+  box-shadow: 1px 1px 8px 4px rgba(12, 5, 32, 0.6);
+  text-align: center;
 }
 #summary button {
   display: block;
@@ -262,7 +295,7 @@ header h1 {
   text-align: center;
   margin: 0;
   text-transform: uppercase;
-  color: #3a2353;
+  color: #120e16;
 }
 
 #summary ol {
@@ -356,5 +389,47 @@ header h1 {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  #quiz,
+  #summary {
+    max-width: 90%;
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 2rem;
+  }
+
+  #question h2 {
+    font-size: 1.25rem;
+  }
+
+  #summary h2 {
+    font-size: 2.5rem;
+  }
+  #summary ul {
+    margin: 1rem auto;
+    padding: 0;
+  }
+
+  #summary li {
+    margin: 0.3rem;
+    padding: 0.5rem 0.5rem;
+    font-size: 0.95rem;
+    line-height: 1.2;
+  }
+
+  #summary-stats {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: auto;
   }
 }

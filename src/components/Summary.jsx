@@ -2,7 +2,7 @@ import React from "react";
 const Summary = React.memo(function Summary ({ userAnswers, resetQuiz }) {
     return( 
     <div id="summary">
-        <img src="/quiz-logo.png" alt="Quiz Completed" />
+        <img src="/treaty.png" alt="Quiz Completed" />
         <h2>Quiz Completed!</h2>
         <ul>
         {userAnswers.map((entry, index) => (

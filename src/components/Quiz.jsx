@@ -2,7 +2,6 @@ import { useState, useCallback, useEffect } from "react";
 import Answers from "./Answers.jsx";
 import { useQuiz } from "../context/QuizContext.jsx";
 import QuestionTimer from "./QuestionTimer.jsx";
-import QuizCompletedImg from "../assets/quiz-complete.png";
 import Summary from "./Summary.jsx";
 
 
@@ -22,6 +21,8 @@ export default function Quiz() {
     }
 
     const [shuffledAnswers, setShuffledAnswers] = useState([]);
+    const [quizStarted, setQuizStarted] = useState(false); // To ask the user if they want to start
+    
 
     const quizFinished = userAnswers.length === Questions.length;
     // Shuffle answers only when the question changes
@@ -39,7 +40,7 @@ export default function Quiz() {
         ...prev,
         {
             question: Questions[activeQuestionIndex].text,
-            selectedAnswer,
+            selectedAnswer: selectedAnswer,
             correctAnswer: Questions[activeQuestionIndex].answers[0],
             isCorrect: selectedAnswer === Questions[activeQuestionIndex].answers[0],
         }
@@ -68,6 +69,19 @@ export default function Quiz() {
             handleSelectAnswer(null);
         }
     }, [handleSelectAnswer]);
+
+    
+     if (!quizStarted) {
+        return (
+        <div id="start-screen">
+            <h2>Welcome to the History Quiz!</h2>
+            <p> How much do you know about history? Test your knowledge with this quiz.</p>
+            <button className="answer" onClick={() => setQuizStarted(true)}>
+             Start Quiz
+            </button>
+        </div>
+        );
+    }
 
     if (userAnswers.length === Questions.length) {
         return(

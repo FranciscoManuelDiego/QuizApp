@@ -1,12 +1,12 @@
 export default [
   {
     id: 'q1',
-    text: 'Who was the first President of the United States?',
+    text: 'Who was the first President of the Republic of Argentina?',
     answers: [
-      'George Washington',
-      'Abraham Lincoln',
-      'Thomas Jefferson',
-      'John Adams',
+      'Bernandino Rivadavia',
+      'Hipólito Yrigoyen',
+      'Bartolomé Mitre',
+      'Juan Manuel de Rosas',
     ],
   },
   {
@@ -21,7 +21,7 @@ export default [
   },
   {
     id: 'q3',
-    text: 'Which ancient civilization built the pyramids?',
+    text: 'Which ancient civilization built the pyramids in Africa?',
     answers: [
       'The Egyptians',
       'The Greeks',
